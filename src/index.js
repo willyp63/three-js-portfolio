@@ -1,17 +1,46 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ReactDOM from "react-dom";
+import React, { Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import Scene from "./components/Scene";
+import SceneUI from "./components/SceneUI";
+import { AppStateContext, useAppState } from "./utils";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const Root = () => {
+  const appState = useAppState();
+
+  return (
+    <>
+      <Canvas
+        id="canvas"
+        style={{
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "#fff",
+        }}
+      >
+        <Suspense fallback={null}>
+          <AppStateContext.Provider value={appState}>
+            <Scene />
+          </AppStateContext.Provider>
+        </Suspense>
+      </Canvas>
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          pointerEvents: "none",
+        }}
+      >
+        <AppStateContext.Provider value={appState}>
+          <SceneUI />
+        </AppStateContext.Provider>
+      </div>
+    </>
+  );
+};
+
+ReactDOM.render(<Root />, document.getElementById("root"));
