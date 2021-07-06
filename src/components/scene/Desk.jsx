@@ -2,7 +2,7 @@ import * as THREE from "three";
 import React from "react";
 import { useLoader } from "@react-three/fiber";
 
-import wood from "../textures/wood.jpg";
+import wood from "./textures/wood.jpg";
 
 const Desk = ({ position }) => (
   <group position={position}>

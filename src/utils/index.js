@@ -1,4 +1,4 @@
 export * from "./useAnimationValue";
 export * from "./useAppState";
-export * from "./useHoverCursor";
+export * from "./useObjectState";
 export * from "./useWindowSize";

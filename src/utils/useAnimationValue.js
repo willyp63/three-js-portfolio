@@ -1,19 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 
-export const useAnimationValue = (state, getValueForState, duration = 500) => {
+const DEFAULT_ANIMATION_DURATION = 500;
+
+export const useAnimationValue = (
+  state,
+  getValueForState,
+  duration = DEFAULT_ANIMATION_DURATION
+) => {
   const [currentValue, setCurrentValue] = useState(getValueForState(state));
 
   const target = useRef(getValueForState(state));
   const deltaValue = useRef(0);
 
   useEffect(() => {
-    const previousTarget = target.current;
     const newTarget = getValueForState(state);
-    const diff = newTarget - previousTarget;
+    const diff = newTarget - currentValue;
 
     target.current = newTarget;
     deltaValue.current = (diff * 1000) / duration;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, getValueForState, duration]);
 
   useFrame((_, deltaTime) => {

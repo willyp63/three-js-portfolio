@@ -1,20 +1,17 @@
-import { useState, createContext, useMemo } from "react";
-import _ from "lodash";
+import { useState, createContext } from "react";
 
 export const AppStateContext = createContext({});
 
 export const CAMERA_FOCUS_POINTS = {
-  DESK: "DESK",
-  LAPTOP: "LAPTOP",
-  PAPERS: "PAPERS",
-  RUBIK: "RUBIK",
+  DESK: 0,
+  LAPTOP: 1,
+  PAPERS: 2,
+  RUBIK: 3,
 };
 
 export const useAppState = () => {
-  const [focusPoint, _setFocusPoint] = useState(CAMERA_FOCUS_POINTS.DESK);
+  const [focusPoint, setFocusPoint] = useState(CAMERA_FOCUS_POINTS.DESK);
+  const [isShowingInfo, setIsShowingInfo] = useState(false);
 
-  // TODO: hack to fix the fact that onClick events are firing multiple times in a row
-  const setFocusPoint = useMemo(() => _.debounce(_setFocusPoint, 50), []);
-
-  return { focusPoint, setFocusPoint };
+  return { focusPoint, setFocusPoint, isShowingInfo, setIsShowingInfo };
 };
